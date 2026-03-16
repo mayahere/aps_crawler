@@ -1,0 +1,25 @@
+# Environments
+.env
+.env.*
+
+# Python Virtual Environments
+venv/
+env/
+.venv/
+.env/
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# IDEs and Tools
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Data and Logs
+*.log
+*.sqlite3
