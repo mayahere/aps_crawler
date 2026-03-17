@@ -1,0 +1,40 @@
+{
+  "results": [
+    {
+      "company_name": "HORIZON CONSTRUCTION DEVELOP",
+      "ticker": "9930",
+      "exchange": "HKEX",
+      "year": 2024,
+      "reports": []
+    },
+    {
+      "company_name": "China Gold International Resources Corp. Ltd.",
+      "ticker": "2099",
+      "exchange": "HKEX",
+      "year": 2024,
+      "reports": []
+    },
+    {
+      "company_name": "CGN POWER LTD",
+      "ticker": "1816",
+      "exchange": "HKEX",
+      "year": 2024,
+      "reports": []
+    },
+    {
+      "company_name": "CHINA ENERGY ENGINEERING CORP LTD",
+      "ticker": "3996",
+      "exchange": "HKEX",
+      "year": 2024,
+      "reports": [
+        {
+          "title": "Annual Report 2024",
+          "date": "16/04/2025 18:31",
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2025/0416/2025041601260.pdf",
+          "type": "Annual Report",
+          "source": "HKEX"
+        }
+      ]
+    }
+  ]
+}

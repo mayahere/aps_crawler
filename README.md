@@ -45,7 +45,7 @@ The agent should return **all discovered report URLs corresponding to the reques
           "report_type": "annual_report",
           "url": "https://example.com/hsbc_annual_report_2024.pdf",
           "source": "hkex",
-          "source_page": "https://www1.hkexnews.hk/",
+          "source_page": "https://www.hkexnews.hk/index.htm",
           "file_type": "pdf"
         },
         {
@@ -53,7 +53,7 @@ The agent should return **all discovered report URLs corresponding to the reques
           "report_type": "sustainability_report",
           "url": "https://example.com/hsbc_sustainability_report_2024.pdf",
           "source": "hkex",
-          "source_page": "https://www1.hkexnews.hk/",
+          "source_page": "https://www.hkexnews.hk/index.htm",
           "file_type": "pdf"
         }
       ],
@@ -143,7 +143,7 @@ XXXX
 Search:
 
 ```
-https://www1.hkexnews.hk/
+https://www.hkexnews.hk/index.htm
 ```
 
 Tasks:
