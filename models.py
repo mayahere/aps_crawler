@@ -16,7 +16,7 @@ class CompanyRequest(BaseModel):
         description="List of target report types"
     )
     date_range_mode: Literal["single_year", "year_and_next", "last_3_years"] = Field(
-        default="last_3_years",
+        default="single_year",
         description="Date range strategy for report search"
     )
     max_pages: int = Field(default=20, description="Maximum pages to crawl (safety limit)")

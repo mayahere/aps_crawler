@@ -52,7 +52,7 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=str, default="results.json", help="Output JSON file for results")
     parser.add_argument("--demo", action="store_true", help="Run a demo with provided Cninfo and Hkexnews examples")
     parser.add_argument("--headless-off", action="store_true", help="Run browser in headful mode (for debugging)")
-    parser.add_argument("--date-range-mode", type=str, default="last_3_years",
+    parser.add_argument("--date-range-mode", type=str, default="single_year",
                        choices=["single_year", "year_and_next", "last_3_years"],
                        help="Date range mode for report search")
     parser.add_argument("--max-pages", type=int, default=20,
