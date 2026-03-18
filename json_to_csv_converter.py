@@ -43,6 +43,14 @@ def convert_json_to_csv(json_file_path, csv_file_path=None):
                 'ticker': ticker,
                 'year': year
             }
+            
+            # Remove commas from all values (including Chinese commas and enumeration commas)
+            for key, value in row.items():
+                if isinstance(value, str):
+                    row[key] = value.replace(',', '').replace('，', '').replace('、', '')
+                elif value is not None:
+                    row[key] = str(value).replace(',', '').replace('，', '').replace('、', '')
+                    
             rows.append(row)
 
     # Write to CSV

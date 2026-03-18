@@ -24,7 +24,7 @@ class ReportCrawler:
             "summary", "semi-annual", "semiannual", "quarterly", "q1", "q2", "q3", "q4",
             "announcement", "notice", "notice of", "supplementary", "amendment",
             "interim", "half year", "half-year", "1st quarter", "2nd quarter",
-            "3rd quarter", "4th quarter", "third quarter", "fourth quarter", "supplement",
+            "3rd quarter", "4th quarter", "third quarter", "fourth quarter", "supplement", "Letter", "notification", "Procedures", "Terms", "Committee"
             # Chinese
             "董事会", "决议", "会议", "预告", "修正", "摘要", "半年度", "季度",
             "一季度", "二季度", "三季度", "四季度", "公告", "通知", "补充", "更正"
@@ -130,7 +130,7 @@ class ReportCrawler:
                         if len(inputs) >= 2:
                             inputs[0].fill(f"{req.start_year}-01-01")
                             page.keyboard.press("Enter")
-                            inputs[1].fill(f"{req.end_year}-12-31")
+                            inputs[1].fill(f"{req.end_year + 2}-12-31")
                             page.keyboard.press("Enter")
                             
                         # Click the "OK" / Apply button
@@ -165,7 +165,25 @@ class ReportCrawler:
                                 continue
 
                             # Improved URL construction
-                            if href.startswith("http"):
+                            if "/disclosure/detail" in href and "announcementId=" in href:
+                                import urllib.parse as urlpa
+                                import re
+                                from datetime import datetime, timedelta
+                                parsed = urlpa.urlparse(href)
+                                qs = urlpa.parse_qs(parsed.query)
+                                ann_id = qs.get("announcementId", [None])[0]
+                                if ann_id:
+                                    date_match = re.search(r'\d{4}-\d{2}-\d{2}', str(date_str))
+                                    if date_match:
+                                        parsed_date = datetime.strptime(date_match.group(0), '%Y-%m-%d')
+                                        parsed_date += timedelta(days=1)
+                                        clean_date = parsed_date.strftime('%Y-%m-%d')
+                                        full_url = f"http://static.cninfo.com.cn/finalpage/{clean_date}/{ann_id}.PDF"
+                                    else:
+                                        full_url = href
+                                else:
+                                    full_url = href
+                            elif href.startswith("http"):
                                 full_url = href
                             elif "adjunctUrl" in href:
                                 full_url = urljoin("https://static.cninfo.com.cn/", href.split("adjunctUrl=")[-1])
@@ -178,7 +196,8 @@ class ReportCrawler:
 
                             # Enhanced year filtering using date_range_mode
                             valid_years = range(req.start_year, req.end_year + 1)
-                            year_found = any(str(y) in title or str(y) in date_str for y in valid_years)
+                            # Strictly check title (checking date_str causes previous year reports to match)
+                            year_found = any(str(y) in title for y in valid_years)
                             if not year_found:
                                 continue
                                 
@@ -266,6 +285,7 @@ class ReportCrawler:
                 try:
                     # Try multiple selectors for autocomplete
                     autocomplete_selectors = [
+                        "tr.autocomplete-suggestion",
                         ".autocomplete-suggestion-list li",
                         ".ui-autocomplete li",
                         "[role='listbox'] li",
@@ -288,7 +308,7 @@ class ReportCrawler:
 
                 # 3. Fill date range
                 start_date = f"{req.start_year}/01/01"
-                end_date = f"{req.end_year}/12/31"
+                end_date = f"{req.end_year + 2}/12/31"
 
                 try:
                     date_from = page.locator("#searchDate-From, input[name='dateFrom']").first
@@ -417,7 +437,8 @@ class ReportCrawler:
 
                             # Enhanced year filtering using date_range_mode
                             valid_years = range(req.start_year, req.end_year + 1)
-                            year_found = any(str(y) in str(title) or str(y) in str(date_str) for y in valid_years)
+                            # Strictly check title (checking date_str causes previous year reports to match)
+                            year_found = any(str(y) in str(title) for y in valid_years)
                             if not year_found:
                                 continue
 
