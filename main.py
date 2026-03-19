@@ -25,7 +25,9 @@ def process_companies(requests: List[CompanyRequest]) -> OutputResult:
         # Determine exchange based on reports source if any exist,
         # otherwise infer from ticker length
         exchange = "UNKNOWN"
-        if reports and reports[0].source:
+        if req.stockex:
+            exchange = req.stockex.upper()
+        elif reports and reports[0].source:
             exchange = reports[0].source
         else:
             t_upper = req.ticker.upper()
@@ -89,11 +91,13 @@ if __name__ == "__main__":
                         date_range_mode = row.get("date_range_mode") or args.date_range_mode
                         max_pages = int(row.get("max_pages") or args.max_pages)
                         document_types = row.get("document_types", "").split(",") if row.get("document_types") else []
+                        stockex = row.get("stockex")
 
                         requests_list.append(CompanyRequest(
                             company_name=row["company"],
                             year=int(row["year"]),
                             ticker=row["ticker"],
+                            stockex=stockex,
                             date_range_mode=date_range_mode,
                             max_pages=max_pages,
                             document_types=document_types
@@ -121,7 +125,9 @@ if __name__ == "__main__":
                 reports = crawler.run(r)
                 
                 exchange = "UNKNOWN"
-                if reports and reports[0].source:
+                if r.stockex:
+                    exchange = r.stockex.upper()
+                elif reports and reports[0].source:
                     exchange = reports[0].source
                 else:
                     t_upper = r.ticker.upper()
