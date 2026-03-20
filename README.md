@@ -20,11 +20,12 @@ This agent will support downstream workflows such as:
 
 # 2. Input Specification
 The system will receive a list of companies with the following attributes.
-| Field        | Type    | Required | Description                  |
-| ------------ | ------- | -------- | ---------------------------- |
-| company_name | string  | Yes      | Official company name        |
-| ticker       | string  | Yes      | Stock exchange ticker symbol |
-| year         | integer | Yes      | Requested reporting year     |
+| Field        | Type    | Required | Description                                        |
+| ------------ | ------- | -------- | -------------------------------------------------- |
+| company_name | string  | Yes      | Official company name                              |
+| ticker       | string  | Yes      | Stock exchange ticker symbol                       |
+| year         | integer | Yes      | Requested reporting year                           |
+| stockex      | string  | No       | Target exchange (`HKEX` or `CNINFO`) explicitly    |
 
 # 3. Expected Output
 
@@ -45,7 +46,7 @@ The agent should return **all discovered report URLs corresponding to the reques
           "report_type": "annual_report",
           "url": "https://example.com/hsbc_annual_report_2024.pdf",
           "source": "hkex",
-          "source_page": "https://www.hkexnews.hk/index.htm",
+          "source_page": "https://www1.hkexnews.hk/",
           "file_type": "pdf"
         },
         {
@@ -53,7 +54,7 @@ The agent should return **all discovered report URLs corresponding to the reques
           "report_type": "sustainability_report",
           "url": "https://example.com/hsbc_sustainability_report_2024.pdf",
           "source": "hkex",
-          "source_page": "https://www.hkexnews.hk/index.htm",
+          "source_page": "https://www1.hkexnews.hk/",
           "file_type": "pdf"
         }
       ],
@@ -143,7 +144,7 @@ XXXX
 Search:
 
 ```
-https://www.hkexnews.hk/index.htm
+https://www1.hkexnews.hk/
 ```
 
 Tasks:
@@ -345,21 +346,25 @@ python main.py --demo
 ```
 
 **Run with Custom Input File:**
-Create an input JSON file (e.g., `input_data.json`) with your list of companies:
-```json
-[
-  {
-    "company_name": "HSBC Holdings",
-    "ticker": "0005.HK",
-    "year": 2024
-  }
-]
+Create an input CSV file (e.g., `input_data.csv`) with your list of companies. The system expects headers for `company`, `ticker`, `year`, and optionally `stockex`:
+```csv
+company,ticker,year,stockex
+YIXIN GROUP LIMITED,2858,2024,HKEX
+AVIC JONHON OPTRONIC TECHNOLOGY LTD,002179,2024,CNINFO
 ```
 
 Then run the agent:
 ```bash
-python main.py --input input_data.json --output results.json
+python main.py --input input_data.csv --output results.json
 ```
 
 The results will be saved in the specified output JSON file.
+
+### 4. Convert JSON Output to CSV
+
+To convert the final nested JSON output into a flattened, spreadsheet-ready CSV format:
+```bash
+python json_to_csv_converter.py results.json results.csv
+```
+The converter will automatically strip internal commas from strings and map all fields into a flat structure.
 ```
