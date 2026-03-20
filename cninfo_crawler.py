@@ -92,7 +92,7 @@ class CNInfoCrawler:
                 
                 # Pagination loop
                 for page_num in range(req.max_pages):
-                    rows = page.locator(".el-table__row, .table-body tr").all()
+                    rows = page.locator(".no-data").count() > 0 or page.locator("text=暂无数据").count() > 0
 
                     if not rows and page_num == 0:
                         no_results = page.locator(".no-data, text=暂无数据").count() > 0
@@ -136,7 +136,7 @@ class CNInfoCrawler:
                             else:
                                 full_url = urljoin(page.url, href)
 
-                            valid_years = range(req.start_year, req.end_year + 1)
+                            valid_years = range(req.start_year, req.end_year + 2)
                             year_found = any(str(y) in title for y in valid_years)
                             if not year_found:
                                 continue
