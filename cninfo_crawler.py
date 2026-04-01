@@ -92,10 +92,10 @@ class CNInfoCrawler:
                 
                 # Pagination loop
                 for page_num in range(req.max_pages):
-                    rows = page.locator(".no-data").count() > 0 or page.locator("text=暂无数据").count() > 0
+                    rows = page.locator(".el-table__row, .table-body tr").all()
 
                     if not rows and page_num == 0:
-                        no_results = page.locator(".no-data, text=暂无数据").count() > 0
+                        no_results = page.locator(".no-data").count() > 0 or page.locator("text=暂无数据").count() > 0
                         if no_results:
                             break
                     for row in rows:

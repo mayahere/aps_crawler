@@ -355,7 +355,7 @@ AVIC JONHON OPTRONIC TECHNOLOGY LTD,002179,2024,CNINFO
 
 Then run the agent:
 ```bash
-python main.py --input input_data.csv --output results.json
+python main.py --input data/input/mini.csv --output data/output/results_mini.json
 ```
 
 The results will be saved in the specified output JSON file.
@@ -367,4 +367,3 @@ To convert the final nested JSON output into a flattened, spreadsheet-ready CSV 
 python json_to_csv_converter.py results.json results.csv
 ```
 The converter will automatically strip internal commas from strings and map all fields into a flat structure.
-```
