@@ -19,7 +19,7 @@ def filter_reports(title: str, expected_types: List[str]) -> Optional[str]:
         "notification", "procedures", "terms", "committee", "reference", "letter of", "general meeting",
         "董事会", "决议", "会议", "预告", "修正", "摘要", "半年度", "季度",
         "一季度", "二季度", "三季度", "四季度", "公告", "通知", "补充", "更正",
-        "form", "proxy", "circular", "annual general meeting"
+        "form", "proxy", "circular", "annual general meeting", "重大差错", "责任追究","制度","审计委员会","规程"
     ]
     for ig in ignored:
         if ig in title_lower:
